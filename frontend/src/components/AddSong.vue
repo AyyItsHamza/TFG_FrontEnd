@@ -12,7 +12,7 @@
         </div>
         <div class="form-group">
           <label for="file_path" class="form-label">Archivo:</label>
-          <input type="file" id="file_path" v-on:change="setFile" class="form-input">
+          <input type="file" name="audio" id="file_path" v-on:change="setFile" class="form-input">
         </div>
         <button type="submit" class="btn-submit">Agregar</button>
       </form>
@@ -56,6 +56,7 @@
     }
   }
   </script>
+
   <style>
   .add-song-container {
     display: flex;

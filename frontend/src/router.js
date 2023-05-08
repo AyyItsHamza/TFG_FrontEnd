@@ -16,7 +16,8 @@ function requireAuth(to, from, next) {
 const routes = [
   { path: '/login', component: Login },
   { path: '/register', component: Register },
-  { path: '/home', component: Home }
+  { path: '/home', component: Home },
+  { path: '/', redirect: '/Login'}
 ];
 
 const router = createRouter({

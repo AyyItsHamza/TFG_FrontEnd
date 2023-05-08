@@ -4,16 +4,18 @@
     <div class="menu-icon" @click="toggleMenu">
       <i class="fa fa-bars"></i>
     </div>
-    <div class="menu" v-show="isMenuOpen">
+    <div class="menu" :class="{ 'menu-open': isMenuOpen }">
       <ul>
         <li><a href="#">Perfil</a></li>
-        <li><a href="#">Logout</a></li>
+        <li><a href="#" @click="logout">Logout</a></li>
       </ul>
     </div>
   </header>
 </template>
 
 <script>
+import Cookies from 'js-cookie';
+
 export default {
   data() {
     return {
@@ -23,6 +25,24 @@ export default {
   methods: {
     toggleMenu() {
       this.isMenuOpen = !this.isMenuOpen;
+    },
+    async logout() {
+      try {
+        const response = await fetch('http://127.0.0.1:5000/melomuse/api/v1/logout', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'xdd'
+          },
+        });
+        if (response.ok) {
+          Cookies.remove('access_token');
+          this.$router.push({ name: 'Login' });
+        }
+      } catch (error) {
+        console.error(error);
+        alert('Ocurrió un error al intentar cerrar sesión');
+      }
     },
   },
 };
@@ -61,6 +81,10 @@ header {
   padding: 10px;
   border-radius: 4px;
   display: none;
+}
+
+.menu-open {
+  display: block;
 }
 
 .menu ul {
