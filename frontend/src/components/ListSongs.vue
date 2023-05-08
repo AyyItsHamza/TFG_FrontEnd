@@ -1,18 +1,19 @@
 <template>
   <div class="list-songs">
-    <h1> Lista de Canciones</h1>
 
+    <h1> Lista de Canciones</h1>
     <div class="buscador">
       <input type="text" v-model="searchTerm" placeholder="Buscar canciones">
       <button @click="searchSongs">Buscar</button>
     </div>
+    
+    <div class="scroll">
+      <div class="song-item" v-for="song in songs" :key="song.id">
+        <div class="song-info">
+          <div class="song-title"> {{ song.title }}</div> 
+          <div class="song-artist"> {{ song.artist }}</div>
+      </div>    
 
-    <div class="song-item" v-for="song in songs" :key="song.id">
-      <div class="song-info">
-        <div class="song-title"> {{ song.title }}</div> 
-        <div class="song-artist"> {{ song.artist }}</div>
-      </div>
-      
       <div class="song-actions">
         <button class="play-button" @click="playSong(song)">
           <i class="fas fa-play"></i>
@@ -22,7 +23,8 @@
         </button>
       </div>
     </div>
-    <audio ref="audio"  controls> </audio>
+    </div>
+    <audio ref="audio" controls> </audio>
 
     <div v-if="showAddToPlaylist" class="add-to-playlist-modal">
       <div class="modal-overlay" @click="hideAddToPlaylistModal"></div>
@@ -40,6 +42,9 @@
 
 <script>
 import axios from "axios";
+import AddSong from "./AddSong.vue"
+import VueCookies from 'vue-cookies'
+
 
 export default {
   name: "ListSongs",
@@ -86,14 +91,22 @@ export default {
     });
     },
     getPlaylists() {
-      axios
-        .get("http://127.0.0.1:5000/melomuse/api/v1/playlists")
-        .then((response) => {
-          this.playlists = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      const token = localStorage.getItem('jwt');
+      const userId = localStorage.getItem('userId');
+
+      console.log(userId)
+
+      axios.get(`http://127.0.0.1:5000/melomuse/api/v1/user/${userId}/playlists`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then((response) => {
+        this.playlists = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     },
     playSong(song) {
       if (this.audioInstance) {
@@ -131,6 +144,7 @@ export default {
 </script>
 
 <style scoped>
+
 .buscador {
   margin: 20px;
   display: flex;
@@ -167,9 +181,36 @@ button:hover {
 }
 
 .list-songs {
-  padding: 30px;
+  padding: 20px;
   max-width: 600px;
   margin: 0 auto;
+  max-height: auto;
+}
+
+.scroll {
+  overflow-y: scroll;
+  padding: 30px;
+  max-height: auto;
+
+  max-height: calc(80vh - 200px); /* ajusta la altura máxima según tus necesidades */
+}
+
+.scroll::-webkit-scrollbar {
+  width: 2px;
+  background-color: #F5F5F5;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  background-color: #AAA;
+  border-radius: 3px;
+}
+
+.scroll::-webkit-scrollbar-thumb:hover {
+  background-color: #999;
+}
+
+.scroll::-webkit-scrollbar-track {
+  background-color: #F5F5F5;
 }
 
 h1 {

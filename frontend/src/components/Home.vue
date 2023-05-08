@@ -4,18 +4,10 @@
       <Headers />
     </div>
 
-    <div class="addPlaylist">
-      
-      <!-- AddSong /> -->
-    </div>
-
     <div class="listaCanciones">
       <ListSongs />
     </div>
 
-    <div class="addSong">
-      <!-- AddSong /> -->
-    </div>
   </div>
 </template>
 
@@ -47,29 +39,14 @@ export default {
 <style>
 .home {
   display: flex;
-  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   height: 100vh;
   font-family: "Open Sans", sans-serif;
   font-size: 16px;
   line-height: 1.5;
   color: #333;
-}
-
-.listaCanciones {
-  margin-top: 20px;
-  flex-grow: 2;
-  flex-basis: 60%;
-  width: 100%;
-}
-
-.add_song {
-  flex-grow: 1;
-  flex-basis: 20%;
-}
-
-.addPlaylist {
-  flex-grow: 1;
-  flex-basis: 20%;
+  overflow:hidden;
 }
 
 </style>

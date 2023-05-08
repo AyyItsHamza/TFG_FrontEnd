@@ -75,32 +75,41 @@
 }
 </style>
 
-  <script>
-  import axios from 'axios';
-  
-  export default {
-    data() {
-      return {
-        username: '',
-        password: '',
-      }
-    },
-    methods: {
-      async login() {
-        try {
-          const response = await axios.post('http://127.0.0.1:5000/melomuse/api/v1/login', {
-            username: this.username,
-            password: this.password,
-          });
-          
-          // Si la respuesta es exitosa, podemos redirigir al usuario a otra página
-            this.$router.push('/home');
-        } catch (error) {
-          console.log(error);
-          // Mostrar un mensaje de error al usuario
-        }
+<script>
+import axios from 'axios';
+
+export default {
+  data() {
+    return {
+      username: '',
+      password: '',
+    }
+  },
+  methods: {
+    async login() {
+      try {
+        const response = await axios.post('http://127.0.0.1:5000/melomuse/api/v1/login', {
+          username: this.username,
+          password: this.password,
+        });
+        
+        // Si la respuesta es exitosa, podemos guardar los datos en localStorage y redirigir al usuario a otra página
+        localStorage.setItem('access_token', response.data.jtw);
+        localStorage.setItem('username', response.data.username);
+        localStorage.setItem('userId', response.data.userId);
+
+        console.log(localStorage.getItem('access_token'));
+        console.log(localStorage.getItem('username'));
+        console.log(localStorage.getItem('userId'));
+
+        this.$router.push('/home');
+      } catch (error) {
+        console.log(error);
+        // Mostrar un mensaje de error al usuario
       }
     }
   }
-  </script>
+}
+</script>
+
   
