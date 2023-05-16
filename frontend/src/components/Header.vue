@@ -1,6 +1,10 @@
 <template>
   <header>
     <div class="logo">Melo Muse</div>
+    <div class="menu">
+      <div class="tab" :class="{ 'active': activeTab === 'all-songs' }" @click="activeTab = 'all-songs'">Todas las canciones</div>
+      <div class="tab" :class="{ 'active': activeTab === 'my-songs' }" @click="activeTab = 'my-songs'">Mis canciones</div>
+    </div>
     <div class="menu-icon" @click="toggleMenu">
       <i class="fa fa-bars"></i>
     </div>

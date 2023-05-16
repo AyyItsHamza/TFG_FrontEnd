@@ -1,12 +1,11 @@
 <template>
   <div class="list-songs">
 
-    <h1> Lista de Canciones</h1>
+    <h1> Lista de Todas Canciones</h1>
     <div class="buscador">
       <input type="text" v-model="searchTerm" placeholder="Buscar canciones">
-      <button @click="searchSongs">Buscar</button>
+      <button @click="searchSongs(searchTerm)">Buscar</button>
     </div>
-    
     <div class="scroll">
       <div class="song-item" v-for="song in songs" :key="song.id">
         <div class="song-info">
@@ -22,19 +21,19 @@
           <i class="fas fa-plus"></i>
         </button>
       </div>
+      </div>
     </div>
-    </div>
+
     <audio ref="audio" controls> </audio>
 
-    <div v-if="showAddToPlaylist" class="add-to-playlist-modal">
-      <div class="modal-overlay" @click="hideAddToPlaylistModal"></div>
+    <div v-if="showAddToPlaylist" class="add-to-playlist-modal" @click.self="hideAddToPlaylistModal">
       <div class="modal-container">
         <h2>Add Song to Playlist</h2>
-        <select v-model="selectedPlaylist">
-          <option v-for="playlist in playlists" :value="playlist.id">{{ playlist.name }}</option>
+        <select v-model="selectedPlaylistId">
+            <option v-for="playlist in playlists" :value="playlist.id">{{ playlist.name }}</option>
         </select>
-        <button @click="addToPlaylist">Add</button>
-    </div>
+          <button type="submit" @click="addToPlaylist(selectedPlaylistId)" @click.self="hideAddToPlaylistModal">Add</button>
+      </div> 
     </div>
   </div>
 
@@ -50,15 +49,14 @@ export default {
   name: "ListSongs",
   data() {
     return {
-      songs: [],
-      playlists: [],
       selectedSong: null,
-      selectedPlaylist: null,
+      selectedPlaylistId: null,
       showAddToPlaylist: false,
       searchTerm: '',
       songs: [],
-      audioInstance: null, // instancia de Audio
-
+      playlists: [],
+      songs: [],
+      audioInstance: null // instancia de Audio
     };
   },
   mounted() {
@@ -77,11 +75,9 @@ export default {
           console.log(error);
         });
     },
-    searchSongs() {
+    searchSongs(search) {
     axios.get('http://127.0.0.1:5000/melomuse/api/v1/search', {
-      params: {
-        search: this.searchTerm
-      }
+  
     })
     .then(response => {
       this.songs = response.data;
@@ -94,15 +90,13 @@ export default {
       const token = localStorage.getItem('jwt');
       const userId = localStorage.getItem('userId');
 
-      console.log(userId)
-
       axios.get(`http://127.0.0.1:5000/melomuse/api/v1/user/${userId}/playlists`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+        
       })
       .then((response) => {
-        this.playlists = response.data;
+        this.playlists = response.data.map((playlist) => {
+          return { id: playlist._id, name: playlist.name };
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -112,31 +106,32 @@ export default {
       if (this.audioInstance) {
         this.audioInstance.pause();
       }
-      this.selectedSong = song;
+      this.selectedSong = song._id;
       this.$refs.audio.currentTime = 0; // Reinicia el tiempo a 0
       this.audioInstance = this.$refs.audio;
       this.audioInstance.src = `http://localhost:5000/melomuse/api/v1/songs/${song._id}/file`;
       this.audioInstance.play();
     },
     showAddToPlaylistModal(song) {
-      this.selectedSong = song;
+      this.selectedSong = song._id;
       this.showAddToPlaylist = true;
     },
     hideAddToPlaylistModal() {
       this.showAddToPlaylist = false;
     },
-    addToPlaylist() {
+    addToPlaylist(playlistId) {
+     
       axios
-        .put(`http://127.0.0.0.1:5000/melomuse/api/v1/playlists/${this.selectedPlaylist}/songs`, {
-          songId: this.selectedSong.id,
+        .put(`http://localhost:5000/melomuse/api/v1/playlists/${playlistId}/songs/${this.selectedSong}`,{
+
         })
-        .then(() => {
-          this.hideAddToPlaylistModal();
+        .then((response) => {
+          console.log(response);
           alert("Song added to playlist!");
         })
         .catch((error) => {
           console.log(error);
-          alert("An error occurred while adding the song to the playlist.");
+          alert("Song Already Added into Playlist");
         });
     },
   },
