@@ -6,6 +6,25 @@
       <input type="text" v-model="searchTerm" placeholder="Buscar canciones">
       <button @click="searchSongs(searchTerm)">Buscar</button>
     </div>
+
+    <div class="playlists">
+      <h2>Playlists</h2>
+      <ul>
+        <li v-for="playlist in playlists" :key="playlist.id">
+          {{ playlist.name }}
+          <button @click="deletePlaylist(playlist.id)">Borrar</button>
+        </li>
+      </ul>
+      <div>
+        <ul>
+          <li>
+            <input v-model="newPlaylistName" placeholder="Nombre Playlist Nuevo" style="width: 140px;">
+            <button @click="addPlaylist">Crear</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+
     <div class="scroll">
       <div class="song-item" v-for="song in songs" :key="song.id">
         <div class="song-info">
@@ -52,6 +71,7 @@ export default {
       selectedSong: null,
       selectedPlaylistId: null,
       showAddToPlaylist: false,
+      newPlaylistName: '',
       searchTerm: '',
       songs: [],
       playlists: [],
@@ -76,15 +96,20 @@ export default {
         });
     },
     searchSongs(search) {
-    axios.get('http://127.0.0.1:5000/melomuse/api/v1/search', {
-  
-    })
-    .then(response => {
-      this.songs = response.data;
-    })
-    .catch(error => {
-      console.log(error);
-    });
+
+    if (search === ''){
+      this.getSongs();
+    }else{
+      axios.get(`http://127.0.0.1:5000/api/v1/search/${search}`, {
+    
+      })
+      .then(response => {
+        this.songs = response.data;
+      })
+      .catch(error => {
+        console.log(error);
+      });
+      }
     },
     getPlaylists() {
       const token = localStorage.getItem('jwt');
@@ -134,11 +159,77 @@ export default {
           alert("Song Already Added into Playlist");
         });
     },
+    async addPlaylist() {
+      if (this.newPlaylistName === "" || this.newPlaylistName === " "){
+          alert("El nombre de la Playlist Esta vacio")
+          return
+      }
+      try {
+        const userId = localStorage.getItem('userId');
+        const response = await axios.post(`http://127.0.0.1:5000/melomuse/api/v1/user/${userId}/addPlaylist`, {
+          name: this.newPlaylistName
+        });
+        // Actualiza la lista de playlists
+        this.playlists = response.data;
+        // Limpia el input
+        this.newPlaylistName = '';
+        location.reload();
+      } catch (error) {
+        alert('Playlist ya existe!');
+        console.log(error);
+      }
+    }
   },
 };
 </script>
 
 <style scoped>
+
+.playlists {
+  position: fixed;
+  top: 100px;
+  right: 40px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 7px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.playlists h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.playlists ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.playlists li {
+  position: relative;
+  padding-right: 80px; /* Espacio para los botones */
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.playlists button {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  background-color: #f44336;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.playlists button:hover {
+  background-color: #d32f2f;
+}
 
 .buscador {
   margin: 20px;
