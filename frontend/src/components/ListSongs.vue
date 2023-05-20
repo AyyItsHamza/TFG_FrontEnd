@@ -156,7 +156,7 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          alert("Song Already Added into Playlist");
+          alert(error);
         });
     },
     async addPlaylist() {
@@ -187,7 +187,7 @@ export default {
 
 .playlists {
   position: fixed;
-  top: 100px;
+  top: 200px;
   right: 40px;
   background-color: #fff;
   border: 1px solid #ccc;
