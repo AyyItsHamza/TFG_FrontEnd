@@ -1,7 +1,7 @@
 <template>
   <div class="list-songs">
 
-    <h1> Lista de Todas Canciones</h1>
+    <h1> Canciones</h1>
     <div class="buscador">
       <input type="text" v-model="searchTerm" placeholder="Buscar canciones">
       <button @click="searchSongs(searchTerm)">Buscar</button>
@@ -11,20 +11,24 @@
       <h2>Playlists</h2>
       <ul>
         <li v-for="playlist in playlists" :key="playlist.id">
-          {{ playlist.name }}
+          <span @click="showSongs(playlist.id)" style="cursor: pointer" >{{ playlist.name }}</span>
           <button @click="deletePlaylist(playlist.id)">Borrar</button>
         </li>
       </ul>
       <div>
         <ul>
+          <br>
           <li>
             <input v-model="newPlaylistName" placeholder="Nombre Playlist Nuevo" style="width: 140px;">
             <button @click="addPlaylist">Crear</button>
           </li>
+          <br>
+          <li> 
+            <button @click="getSongs()"> Mostrar Todas las canciones</button>
+          </li>
         </ul>
       </div>
     </div>
-
     <div class="scroll">
       <div class="song-item" v-for="song in songs" :key="song.id">
         <div class="song-info">
@@ -75,7 +79,7 @@ export default {
       searchTerm: '',
       songs: [],
       playlists: [],
-      songs: [],
+      songs: [],  
       audioInstance: null // instancia de Audio
     };
   },
@@ -158,6 +162,34 @@ export default {
           console.log(error);
           alert(error);
         });
+    },
+    async showSongs(playlistId) {
+      try {
+        const response = await axios.get(`http://127.0.0.1:5000/api/showSongsPlaylist/${playlistId}`);
+        this.songs = response.data.songs;
+      } catch (error) {
+        console.error(error);
+        // Manejo de errores
+      }
+    },
+    async deletePlaylist(playlistId) {
+      try {
+        const response = await axios.delete(`http://127.0.0.1:5000/melomuse/api/v1/playlists/${playlistId}`);
+        if (response.status === 200) {
+          // Actualiza la lista de playlists
+          const userId = localStorage.getItem('userId');
+          const playlistsResponse = await axios.get(`http://127.0.0.1:5000/melomuse/api/v1/user/${userId}/playlists`);
+          this.playlists = playlistsResponse.data;  
+          alert('Playlist eliminada exitosamente');
+          location.reload();
+
+        } else {
+          alert('Error al eliminar la playlist');
+        }
+      } catch (error) {
+        console.log(error);
+        alert('Error al eliminar la playlist');
+      }
     },
     async addPlaylist() {
       if (this.newPlaylistName === "" || this.newPlaylistName === " "){
