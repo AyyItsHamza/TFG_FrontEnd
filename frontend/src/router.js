@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 import Home from './components/Home.vue';
 import Login from './components/Login.vue';
 import Register from './components/Register.vue';
+import Songs from './components/Songs.vue';
 
 function requireAuth(to, from, next) {
   const isAuthenticated = Cookies.get('access_token');
@@ -17,7 +18,8 @@ const routes = [
   { path: '/login', component: Login },
   { path: '/register', component: Register },
   { path: '/home', component: Home },
-  { path: '/', redirect: '/Login'}
+  { path: '/', redirect: '/Login'},
+  { path: '/songs', component: Songs}
 ];
 
 const router = createRouter({

@@ -1,7 +1,8 @@
 <template>
     <div class="container">
+      <img class="logo-img" src="../assets/LogoMeloMuse.png"/>
+      <h1 >Register</h1>
       <form class="form" @submit.prevent="register">
-        <h2>Register</h2>
         <div class="form-control">
           <label for="username">Username:</label>
           <input type="text" id="username" v-model="username" required>
@@ -15,11 +16,12 @@
           <input type="password" id="password" v-model="password" required>
         </div>
         <div class="form-control">
-          <button type="submit">Register</button>
+          <button type="submit" class="btn-submit">Register</button>
         </div>
       </form>
+      <p>¿Ya tienes cuenta? <router-link to="/login">Login</router-link></p>
     </div>
-  </template>
+</template>
   
   <script>
   import axios from 'axios';
@@ -41,7 +43,9 @@
             password: this.password,
           });
           console.log(response.data);
+          alert("Se ha registrado correctamente el usuario")
         } catch (error) {
+          alert("El nombre de Usuario ya existe")
           console.error(error);
         }
       },
@@ -49,55 +53,77 @@
   };
   </script>
   
-  <style>
-  .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-  }
+<style scoped>
   
-  .form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  }
+body {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f1f1f1;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 400px;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
   
-  .form-control {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1rem;
-    width: 100%;
-  }
+.form-control {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.logo-img{
+  width: 100px;
+  height: 100px;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
   
-  label {
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-  }
-  
-  input {
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1rem;
-  }
-  
-  button {
-    background-color: var(--primary-color);
-    color: blue;
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
-  }
-  
-  button:hover {
-    background-color: darken(var(--primary-color), 10%);
-  }
-  </style>
+button:hover {
+  background-position: 400px 0;
+}
+
+.btn-submit {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 2px solid;
+  width: 400px;
+  color: black;
+  background: linear-gradient(to right, white, white 50%, lime 50%);
+  background-size: 800px;
+  background-position: 0 0;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all .5s;
+}
+
+</style>
   

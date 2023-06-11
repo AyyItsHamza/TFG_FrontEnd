@@ -57,61 +57,61 @@
   }
   </script>
 
-  <style>
-  .add-song-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: #f1f1f1;
-  }
+<style>
+.add-song-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f1f1f1;
+}
 
-  .add-song-header {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-  }
+.add-song-header {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
 
-  .add-song-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 400px;
-    padding: 2rem;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  }
+.add-song-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 400px;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
 
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1rem;
-  }
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
 
-  .form-label {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-  }
+.form-label {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
 
-  .form-input {
-    padding: 0.5rem;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 1.2rem;
-    width: 100%;
-    box-sizing: border-box;
-  }
+.form-input {
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 1.2rem;
+  width: 100%;
+  box-sizing: border-box;
+}
 
-  .btn-submit {
-    margin-top: 1rem;
-    padding: 0.5rem 1rem;
-    border: none;
-    background-color: #1db954;
-    color: #fff;
-    font-size: 1.2rem;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+.btn-submit {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #1db954;
+  color: #fff;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
 </style>

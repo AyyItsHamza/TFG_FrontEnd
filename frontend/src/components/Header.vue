@@ -1,13 +1,15 @@
 <template>
   <header>
-    <div class="logo">Melo Muse</div>
+    <div class="logo"> Melo Muse
+    </div>
+
     <div class="menu-icon" @click="toggleMenu">
       <i class="fa fa-bars"></i>
     </div>
     <div class="menu" :class="{ 'menu-open': isMenuOpen }">
       <ul>
         <li><a href="#">Perfil</a></li>
-        <li><a href="#" @click="logout">Logout</a></li>
+        <li><a href="#"> <router-link to="/login">Logout</router-link></a></li>
       </ul>
     </div>
   </header>

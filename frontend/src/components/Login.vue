@@ -1,21 +1,27 @@
 <template>
     <div class="login-container">
+      <img class="logo-img" src="../assets/LogoMeloMuse.png"/>
       <h1 class="login-header">Login</h1>
       <form @submit.prevent="login" class="login-form">
         <div class="form-group">
-          <label for="username" class="form-label">Username:</label>
+          <label for="username" class="form-label"><b>Username:</b></label>
           <input type="text" id="username" v-model="username" class="form-input">        
-          <label for="password" class="form-label">Password:</label>
+          <label for="password" class="form-label"><b>Password:</b></label>
           <input type="password" id="password" v-model="password" class="form-input">
         </div>
         <button type="submit" class="btn-submit">Login</button>
         <p>¿No tienes una cuenta? <router-link to="/register">Regístrate</router-link></p>
+        <p>Esuchar Canciones sin Registrarse | <router-link to="/songs">Escuchar</router-link></p>
       </form>
-      
     </div>
   </template>
-  
-<style>
+
+<style >
+body {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+}
 .login-container {
   display: flex;
   flex-direction: column;
@@ -23,6 +29,11 @@
   justify-content: center;
   height: 100vh;
   background-color: #f1f1f1;
+}
+
+.logo-img{
+  width: 100px;
+  height: 100px;
 }
 
 .login-header {
@@ -63,16 +74,26 @@
   margin-bottom: 1rem; /* Agregar margen inferior */
 }
 
+button:hover {
+  background-position: 400px 0;
+}
+
 .btn-submit {
   margin-top: 1rem;
   padding: 0.5rem 1rem;
-  border: none;
-  background-color: #0077ff;
-  color: darkblue;
+  background: transparent;
+  border: 2px solid;
+  width: 250px;
+  color: black;
+  background: linear-gradient(to right, white, white 50%, lime 50%);
+  background-size: 800px;
+  background-position: 0 0;
   font-size: 1.2rem;
   border-radius: 5px;
   cursor: pointer;
+  transition: all .5s;
 }
+
 </style>
 
 <script>

@@ -23,8 +23,10 @@
             <button @click="addPlaylist">Crear</button>
           </li>
           <br>
+          <br>
+          <br>
           <li> 
-            <button @click="getSongs()"> Mostrar Todas las canciones</button>
+            <button class="crear" @click="getSongs()"> Mostrar Todas las canciones</button>
           </li>
         </ul>
       </div>
@@ -263,6 +265,7 @@ export default {
   background-color: #d32f2f;
 }
 
+
 .buscador {
   margin: 20px;
   display: flex;
@@ -304,7 +307,6 @@ button:hover {
   margin: 0 auto;
   max-height: auto;
 }
-
 .scroll {
   overflow-y: scroll;
   padding: 30px;
@@ -314,13 +316,13 @@ button:hover {
 }
 
 .scroll::-webkit-scrollbar {
-  width: 2px;
-  background-color: #F5F5F5;
+  width: 10px;
+  background-color: black;
 }
 
 .scroll::-webkit-scrollbar-thumb {
-  background-color: #AAA;
-  border-radius: 3px;
+  background-color: #1db954;
+  border-radius: 10px;
 }
 
 .scroll::-webkit-scrollbar-thumb:hover {
@@ -330,6 +332,7 @@ button:hover {
 .scroll::-webkit-scrollbar-track {
   background-color: #F5F5F5;
 }
+
 
 h1 {
   font-size: 36px;
@@ -346,6 +349,13 @@ h1 {
   padding: 10px;
   border-radius: 5px;
   background-color: #282828;
+  transform: scale(1);
+  transition: all 0.3s;
+}
+
+.song-item:hover{
+  box-shadow: 0 0 10px 5px #1db954;
+  transform: scale(1.02);
 }
 
 .song-title {
@@ -466,43 +476,14 @@ audio {
   left: 0;
   width: 100%;
   background-color: #282828;
-  color: #fff;
+  color: blue ;
   padding: 10px 20px;
   box-sizing: border-box;
   font-size: 14px;
 }
 
 audio::-webkit-media-controls-panel {
-  background-color: #282828;
-}
-
-audio::-webkit-media-controls {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #282828;
-}
-
-audio::-webkit-media-controls-start-playback-button {
-  display: none;
-}
-
-audio::-webkit-media-controls-enclosure {
-  display: none;
-}
-
-audio::-webkit-media-controls-time-remaining-display,
-audio::-webkit-media-controls-timeline {
-  flex: 1;
-}
-
-audio::-webkit-media-controls-volume-slider-container,
-audio::-webkit-media-controls-mute-button {
-  display: none;
-}
-
-audio::-webkit-media-controls-fullscreen-button {
-  margin-left: 20px;
+  background-color: #1db954;
 }
 
 </style>

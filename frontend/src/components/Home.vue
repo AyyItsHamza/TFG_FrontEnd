@@ -8,7 +8,10 @@
       <ListSongs />
     </div>
 
-    
+    <div class="btn_addSong">
+      <button on-click='toggleAddSongPopup()'> AddSong </button>
+      <AddSong v-if="showAddSongPopup"/>
+    </div>
 
   </div>
 </template>
@@ -33,6 +36,7 @@ export default {
   methods: {
     toggleAddSongPopup() {
       this.showAddSongPopup = !this.showAddSongPopup;
+      this.showAddSongPopup = true
     },
   },
 };
