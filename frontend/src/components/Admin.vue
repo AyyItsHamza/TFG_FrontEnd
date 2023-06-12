@@ -1,0 +1,210 @@
+<template>
+  <header>
+    <div class="logo">Melo Muse</div>
+  </header>
+  <br />
+  <br />
+  <br />
+  <h1>Lista Canciones</h1>
+  <div class="list-songs">
+    <div class="scroll">
+      <div class="song-item" v-for="song in songs" :key="song.id">
+        <div class="song-info">
+          <div class="song-title">{{ song.title }}</div>
+          <div class="song-artist">{{ song.artist }}</div>
+        </div>
+
+        <div class="song-actions">
+          <button class="play-button" @click="playSong(song)">
+            <i class="fas fa-play"></i>
+          </button>
+          <button class="delete-button" @click="deleteSong(song._id)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <audio ref="audio" controls></audio>
+  </div>
+</template>
+
+<script>
+import axios from "axios";
+
+export default {
+  name: "ListSongs",
+  data() {
+    return {
+      selectedSong: null,
+      songs: [],
+      audioInstance: null // instancia de Audio
+    };
+  },
+  mounted() {
+    this.getSongs();
+  },
+  methods: {
+    getSongs() {
+      axios
+        .get("http://127.0.0.1:5000/melomuse/api/v1/songs")
+        .then((response) => {
+          this.songs = response.data;
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    playSong(song) {
+      if (this.audioInstance) {
+        this.audioInstance.pause();
+      }
+      this.selectedSong = song._id;
+      this.$refs.audio.currentTime = 0; // Reinicia el tiempo a 0
+      this.audioInstance = this.$refs.audio;
+      this.audioInstance.src = `http://localhost:5000/melomuse/api/v1/songs/${song._id}/file`;
+      this.audioInstance.play();
+    },
+    deleteSong(songId) {
+      const userId = "Hamza"; // Cambia esto según tu lógica de autenticación
+      axios
+        .post("http://127.0.0.1:5000/melomuse/api/v1/delete_song", {
+          userId,
+          songId
+        })
+        .then((response) => {
+          console.log(response.data);
+          this.getSongs(); // Vuelve a obtener las canciones después de eliminar una
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }
+};
+</script>
+
+<style scoped>
+/* Estilos CSS existentes */
+
+.delete-button {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #ff0000;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.delete-button i::before {
+  content: "\f1f8";
+}
+
+.list-songs {
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  max-height: auto;
+}
+.scroll {
+  overflow-y: scroll;
+  padding: 30px;
+  max-height: auto;
+
+  max-height: calc(80vh - 200px); /* ajusta la altura máxima según tus necesidades */
+}
+
+.scroll::-webkit-scrollbar {
+  width: 10px;
+  background-color: black;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  background-color: #1db954;
+  border-radius: 10px;
+}
+
+.scroll::-webkit-scrollbar-thumb:hover {
+  background-color: #999;
+}
+
+.scroll::-webkit-scrollbar-track {
+  background-color: #F5F5F5;
+}
+
+h1 {
+  font-size: 36px;
+  color: #1db954;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.song-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #282828;
+  transform: scale(1);
+  transition: all 0.3s;
+}
+
+.song-item:hover{
+  box-shadow: 0 0 10px 5px #1db954;
+  transform: scale(1.02);
+}
+
+.song-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.song-artist {
+  font-size: 16px;
+  color: #b3b3b3;
+}
+
+.play-button {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #1db954;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.song-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px; /* Espacio entre los botones */
+}
+
+.play-button i::before {
+  content: "\f04b";
+}
+
+audio {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #282828;
+  color: blue ;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+audio::-webkit-media-controls-panel {
+  background-color: #1db954;
+  filter: invert();
+}
+/* Estilos CSS existentes */
+</style>
