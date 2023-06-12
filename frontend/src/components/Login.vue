@@ -1,8 +1,8 @@
 <template>
     <div class="login-container">
-      <img class="logo-img" src="../assets/LogoMeloMuse.png"/>
-      <h1 class="login-header">Login</h1>
       <form @submit.prevent="login" class="login-form">
+        <img class="logo-img" src="../assets/LogoMeloMuse.png"/>
+        <h1 class="login-header">Login</h1>
         <div class="form-group">
           <label for="username" class="form-label"><b>Username:</b></label>
           <input type="text" id="username" v-model="username" class="form-input">        

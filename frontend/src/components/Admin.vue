@@ -1,30 +1,52 @@
 <template>
-  <header>
-    <div class="logo">Melo Muse</div>
-  </header>
-  <br />
-  <br />
-  <br />
-  <h1>Lista Canciones</h1>
-  <div class="list-songs">
-    <div class="scroll">
-      <div class="song-item" v-for="song in songs" :key="song.id">
-        <div class="song-info">
-          <div class="song-title">{{ song.title }}</div>
-          <div class="song-artist">{{ song.artist }}</div>
+  <div>
+    <div class="login-container" v-if="!isLoggedIn">
+    <div class="login-form">
+      <img class="logo-img" src="../assets/LogoMeloMuse.png" alt="Logo">
+      <h2 class="login-header">Login Administrador</h2>
+      <form>
+        <div class="form-group">
+          <label for="username" class="form-label"><b>Username:</b></label>
+          <input type="text" id="username" v-model="username" class="form-input">
         </div>
-
-        <div class="song-actions">
-          <button class="play-button" @click="playSong(song)">
-            <i class="fas fa-play"></i>
-          </button>
-          <button class="delete-button" @click="deleteSong(song._id)">
-            <i class="fas fa-trash"></i>
-          </button>
+        <div class="form-group">
+          <label for="password" class="form-label"><b>Password:</b></label>
+          <input type="password" id="password" v-model="password" class="form-input">
         </div>
+        <button @click="login" class="btn-submit">Iniciar sesión</button>
+      </form>
+    </div>
+  </div>
+    <div v-else>
+      <header>
+        <div class="logo">Melo Muse</div>
+        <b><p> Admin </p></b>
+      </header>
+      <br />
+      <br />
+      <br />
+      <h1>Lista Canciones</h1>
+      <div class="list-songs">
+        <div class="scroll">
+          <div class="song-item" v-for="song in songs" :key="song.id">
+            <div class="song-info">
+              <div class="song-title">{{ song.title }}</div>
+              <div class="song-artist">{{ song.artist }}</div>
+            </div>
+    
+            <div class="song-actions">
+              <button class="play-button" @click="playSong(song)">
+                <i class="fas fa-play"></i>
+              </button>
+              <button class="delete-button" @click="deleteSong(song._id)">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <audio ref="audio" controls></audio>
       </div>
     </div>
-    <audio ref="audio" controls></audio>
   </div>
 </template>
 
@@ -35,15 +57,26 @@ export default {
   name: "ListSongs",
   data() {
     return {
+      isLoggedIn: false,
+      username: '',
+      password: '',
       selectedSong: null,
       songs: [],
       audioInstance: null // instancia de Audio
     };
   },
   mounted() {
-    this.getSongs();
+    // this.getSongs();
   },
   methods: {
+    login() {
+      if (this.username === 'admin' && this.password === 'admin') {
+        this.isLoggedIn = true;
+        this.getSongs();
+      } else {
+        alert('Usuario o contraseña incorrectos');
+      }
+    },
     getSongs() {
       axios
         .get("http://127.0.0.1:5000/melomuse/api/v1/songs")

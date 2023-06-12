@@ -8,7 +8,6 @@
     </div>
     <div class="menu" :class="{ 'menu-open': isMenuOpen }">
       <ul>
-        <li><a href="#">Perfil</a></li>
         <li><a href="#"> <router-link to="/login">Logout</router-link></a></li>
       </ul>
     </div>

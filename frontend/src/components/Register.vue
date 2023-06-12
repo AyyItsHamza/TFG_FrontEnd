@@ -1,8 +1,8 @@
 <template>
     <div class="container">
-      <img class="logo-img" src="../assets/LogoMeloMuse.png"/>
-      <h1 >Register</h1>
       <form class="form" @submit.prevent="register">
+        <img class="logo-img" src="../assets/LogoMeloMuse.png"/>
+        <h1 >Register</h1>
         <div class="form-control">
           <label for="username">Username:</label>
           <input type="text" id="username" v-model="username" required>

@@ -3,16 +3,11 @@
     <div class="headers">
       <Headers />
     </div>
-
+    <br/>
+    <br/>
     <div class="listaCanciones">
       <ListSongs />
     </div>
-
-    <div class="btn_addSong">
-      <button on-click='toggleAddSongPopup()'> AddSong </button>
-      <AddSong v-if="showAddSongPopup"/>
-    </div>
-
   </div>
 </template>
 
@@ -36,23 +31,22 @@ export default {
   methods: {
     toggleAddSongPopup() {
       this.showAddSongPopup = !this.showAddSongPopup;
-      this.showAddSongPopup = true
     },
   },
 };
 </script>
 
-<style>
+<style scoped>
 .home {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   height: 100vh;
   font-family: "Open Sans", sans-serif;
   font-size: 16px;
   line-height: 1.5;
   color: #333;
-  overflow:hidden;
+  overflow: hidden;
 }
 
 </style>

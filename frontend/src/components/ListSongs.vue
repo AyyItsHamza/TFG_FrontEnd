@@ -24,13 +24,24 @@
           </li>
           <br>
           <br>
-          <br>
           <li> 
-            <button class="crear" @click="getSongs()"> Mostrar Todas las canciones</button>
+              <button @click="getSongs()"> Mostrar Todas las canciones</button>
+              <br/>
           </li>
         </ul>
       </div>
     </div>
+    <div class="addButton">
+      <button @click="toggleAddSongPopup">Subir Canciones</button>
+    </div>
+
+    <div class="modal" v-if="showAddSongPopup">
+      <div class="modal-content">
+        <span class="close" @click="closeAddSongPopup">&times;</span>
+        <AddSong @close="closeAddSongPopup" />
+      </div>
+    </div>
+    <br/>
     <div class="scroll">
       <div class="song-item" v-for="song in songs" :key="song.id">
         <div class="song-info">
@@ -66,17 +77,21 @@
 
 <script>
 import axios from "axios";
-import AddSong from "./AddSong.vue"
+import AddSong from "./AddSong.vue";
 import VueCookies from 'vue-cookies'
 
 
 export default {
   name: "ListSongs",
+  components: {
+    AddSong
+  },
   data() {
     return {
       selectedSong: null,
       selectedPlaylistId: null,
       showAddToPlaylist: false,
+      showAddSongPopup: false,
       newPlaylistName: '',
       searchTerm: '',
       songs: [],
@@ -100,6 +115,13 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+    },
+    toggleAddSongPopup() {
+      this.showAddSongPopup = !this.showAddSongPopup;
+    },
+    closeAddSongPopup() {
+      this.showAddSongPopup = false;
+      window.location.reload();
     },
     searchSongs(search) {
 
@@ -228,6 +250,54 @@ export default {
   padding: 20px;
   border-radius: 7px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.addButton {
+  display: flex;
+  justify-content: center;
+}
+
+.addButton button {
+  padding: 10px 20px;
+  font-size: 16px;
+  width: 550px;
+  background-color: #4287f5;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #fff;
+  border-radius: 4px;
+  max-width: fit-content;
+  max-height: fit-content;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 30px;
+  font-weight: bold;
+  color: black;
 }
 
 .playlists h2 {
