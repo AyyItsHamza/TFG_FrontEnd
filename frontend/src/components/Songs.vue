@@ -21,6 +21,13 @@
                 </div>
             </div>
         </div>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <div class="text">
+          <p> <b> Como usuario no registrado solo ves las primeras 5 canciones. <br/> Si quieres escuchar mas Canciones <button class="btn-submit"> <router-link class="router-text" to="/register"> REGISTRATE </router-link> </button></b></p>
+        </div>
         <audio ref="audio" controls> </audio>
     </div>
 </template>
@@ -45,7 +52,7 @@ export default {
       axios
         .get("http://127.0.0.1:5000/melomuse/api/v1/songs")
         .then((response) => {
-          this.songs = response.data;
+          this.songs = response.data.slice(0,2);
           console.log(response.data)
         })
         .catch((error) => {
@@ -82,6 +89,21 @@ export default {
   max-height: calc(80vh - 200px); /* ajusta la altura máxima según tus necesidades */
 }
 
+.btn-submit{
+  width: 150px;
+}
+
+.text{
+  box-shadow: 0 0 10px 5px #1db954;
+  text-align: center;
+  padding: 10px;
+  border-radius: 2%;
+  text-decoration: none;
+}
+
+.router-text{
+  text-decoration: none;
+}
 .scroll::-webkit-scrollbar {
   width: 10px;
   background-color: black;
@@ -89,7 +111,7 @@ export default {
 
 .scroll::-webkit-scrollbar-thumb {
   background-color: #1db954;
-  border-radius: 10px;
+  border-radius: 10px
 }
 
 .scroll::-webkit-scrollbar-thumb:hover {
@@ -144,6 +166,13 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
+  border: 2px solid white;
+  transform: scale(1);
+  transition: all 0.3s;
+}
+
+.play-button:hover{
+  transform: scale(1.25);
 }
 .song-actions {
   display: flex;
@@ -170,7 +199,6 @@ audio {
 
 audio::-webkit-media-controls-panel {
   background-color: #1db954;
-  filter: invert();
 }
 
 </style>

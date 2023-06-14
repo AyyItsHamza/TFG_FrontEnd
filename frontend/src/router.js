@@ -6,15 +6,6 @@ import Register from './components/Register.vue';
 import Songs from './components/Songs.vue';
 import Admin from './components/Admin.vue';
 
-function requireAuth(to, from, next) {
-  const isAuthenticated = Cookies.get('access_token');
-  if (isAuthenticated) {
-    next('/home');
-  } else {
-    next('/login');
-  }
-}
-
 const routes = [
   { path: '/login', component: Login },
   { path: '/register', component: Register },

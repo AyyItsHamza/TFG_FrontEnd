@@ -56,6 +56,9 @@
         <button class="btn-add-playlist" @click="showAddToPlaylistModal(song)">
           <i class="fas fa-plus"></i>
         </button>
+        <button class="btn-delete-song" @click="showDeleteSongModal(song)">
+          <i class="fas fa-trash"></i>
+        </button>
       </div>
       </div>
     </div>
@@ -71,8 +74,17 @@
           <button type="submit" @click="addToPlaylist(selectedPlaylistId)" @click.self="hideAddToPlaylistModal">Add</button>
       </div> 
     </div>
-  </div>
 
+    <div v-if="showDeleteSong" class="delete-song-modal" @click.self="hideDeleteSongModal">
+      <div class="modal-container">
+        <h2>Delete Song</h2>
+        <select v-model="selectedPlaylistId">
+          <option v-for="playlist in playlists" :value="playlist.id">{{ playlist.name }}</option>
+        </select>
+        <button type="submit" @click="deleteSong(selectedPlaylistId, selectedSongId)" @click.self="hideDeleteSongModal">Delete</button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -90,6 +102,7 @@ export default {
     return {
       selectedSong: null,
       selectedPlaylistId: null,
+      showDeleteSong: false,
       showAddToPlaylist: false,
       showAddSongPopup: false,
       newPlaylistName: '',
@@ -172,6 +185,13 @@ export default {
     hideAddToPlaylistModal() {
       this.showAddToPlaylist = false;
     },
+    showDeleteSongModal(song) {
+      this.selectedSongId = song._id;
+      this.showDeleteSong = true;
+    },
+    hideDeleteSongModal() {
+      this.showDeleteSong = false;
+    },
     addToPlaylist(playlistId) {
      
       axios
@@ -252,6 +272,15 @@ export default {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
+
+.song-actions button{
+  border: 2px solid white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
 .addButton {
   display: flex;
   justify-content: center;
@@ -305,6 +334,18 @@ export default {
   margin-bottom: 10px;
 }
 
+.btn-delete-song{
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: hsl(0,  100%, 50%); ;
+  transform: scale(1);
+  transition: all 0.3s;
+}
+
+.btn-delete-song:hover{
+  transform: scale(1.25);
+}
 .playlists ul {
   list-style: none;
   padding: 0;
@@ -330,7 +371,6 @@ export default {
   border-radius: 3px;
   cursor: pointer;
 }
-
 .playlists button:hover {
   background-color: #d32f2f;
 }
@@ -379,7 +419,7 @@ button:hover {
 }
 .scroll {
   overflow-y: scroll;
-  padding: 30px;
+  padding: 40px;
   max-height: auto;
 
   max-height: calc(80vh - 200px); /* ajusta la altura máxima según tus necesidades */
@@ -403,7 +443,6 @@ button:hover {
   background-color: #F5F5F5;
 }
 
-
 h1 {
   font-size: 36px;
   color: #1db954;
@@ -416,7 +455,7 @@ h1 {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  padding: 10px;
+  padding: 20px;
   border-radius: 5px;
   background-color: #282828;
   transform: scale(1);
@@ -448,10 +487,16 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
+  transform: scale(1);
+  transition: all 0.3s;
+}
+
+.play-button:hover{
+  transform: scale(1.25);
 }
 .song-actions {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   gap: 10px; /* Espacio entre los botones */
 }
@@ -464,15 +509,19 @@ h1 {
   border: none;
   background-color: white;
   cursor: pointer;
-  margin-left: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 30px;
   height: 30px;
   border-radius: 50%;
+  transform: scale(1);
+  transition: all 0.3s;
 }
 
+.btn-add-playlist:hover{
+  transform: scale(1.25);
+}
 .btn-add-playlist i::before {
   content: "\f067";
   color: #1db954;

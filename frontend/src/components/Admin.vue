@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <div class="login-container" v-if="!isLoggedIn">
     <div class="login-form">
       <img class="logo-img" src="../assets/LogoMeloMuse.png" alt="Logo">
@@ -119,16 +119,33 @@ export default {
 
 <style scoped>
 /* Estilos CSS existentes */
+:root {
+  --mainColor: hsl(240, 100%, 50%);
+  --altColor: hsl(240, 100%, 70%);
+
+  --deleteMainColor: hsl(0,  100%, 50%);
+  --deleteAltColor: hsl(0,  100%, 65%);
+}
+.fa, .fab, .fad, .fal, .far, .fas {
+  color: white;
+}
 
 .delete-button {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background-color: #ff0000;
+  border: 2px solid var(--deleteAltColor);
+  background-color: var(--deleteMainColor);
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
+  transform: scale(1);
+  transition: all 0.3s;
+}
+
+.delete-button:hover{
+  transform: scale(1.25);
 }
 
 .delete-button i::before {
@@ -136,6 +153,14 @@ export default {
 }
 
 .list-songs {
+  --deleteMainColor: hsl(0,  100%, 50%);
+  --deleteAltColor: hsl(0,  100%, 90%);
+
+  --shadow: rgb(88, 88, 243);
+
+  --mainColor: hsl(240, 100%, 50%);
+  --altColor: hsl(240, 100%, 90%);
+  
   padding: 20px;
   max-width: 600px;
   margin: 0 auto;
@@ -155,7 +180,7 @@ export default {
 }
 
 .scroll::-webkit-scrollbar-thumb {
-  background-color: #1db954;
+  background-color: var(--mainColor);
   border-radius: 10px;
 }
 
@@ -187,7 +212,7 @@ h1 {
 }
 
 .song-item:hover{
-  box-shadow: 0 0 10px 5px #1db954;
+  box-shadow: 0 0 10px 5px var(--shadow);
   transform: scale(1.02);
 }
 
@@ -206,11 +231,18 @@ h1 {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background-color: #1db954;
+  background-color: var(--mainColor);
   cursor: pointer;
   display: flex;
+  border: 2px solid var(--altColor);
   justify-content: center;
   align-items: center;
+  transform: scale(1);
+  transition: all 0.3s;
+}
+
+.play-button:hover{
+  transform: scale(1.25);
 }
 .song-actions {
   display: flex;
@@ -229,15 +261,14 @@ audio {
   left: 0;
   width: 100%;
   background-color: #282828;
-  color: blue ;
+  color: var(--mainColor) ;
   padding: 10px 20px;
   box-sizing: border-box;
   font-size: 14px;
 }
 
 audio::-webkit-media-controls-panel {
-  background-color: #1db954;
-  filter: invert();
+  background-color: lightblue;
 }
 /* Estilos CSS existentes */
 </style>

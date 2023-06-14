@@ -66,6 +66,7 @@ header {
 .logo {
   font-size: 24px;
   font-weight: bold;
+  color: #1ed760;
 }
 
 .menu-icon {
