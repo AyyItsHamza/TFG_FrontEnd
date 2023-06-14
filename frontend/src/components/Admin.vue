@@ -3,14 +3,14 @@
     <div class="login-container" v-if="!isLoggedIn">
     <div class="login-form">
       <img class="logo-img" src="../assets/LogoMeloMuse.png" alt="Logo">
-      <h2 class="login-header">Login Administrador</h2>
+      <h2 class="login-header"> Administrador</h2>
       <form>
         <div class="form-group">
-          <label for="username" class="form-label"><b>Username:</b></label>
+          <label for="username" class="form-label"><b>Usuario:</b></label>
           <input type="text" id="username" v-model="username" class="form-input">
         </div>
         <div class="form-group">
-          <label for="password" class="form-label"><b>Password:</b></label>
+          <label for="password" class="form-label"><b>Contraseña:</b></label>
           <input type="password" id="password" v-model="password" class="form-input">
         </div>
         <button @click="login" class="btn-submit">Iniciar sesión</button>

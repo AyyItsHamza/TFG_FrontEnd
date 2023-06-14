@@ -9,10 +9,11 @@
 
     <div class="playlists">
       <h2>Playlists</h2>
+      <br/>
       <ul>
         <li v-for="playlist in playlists" :key="playlist.id">
           <span @click="showSongs(playlist.id)" style="cursor: pointer" >{{ playlist.name }}</span>
-          <button @click="deletePlaylist(playlist.id)">Borrar</button>
+          <button class="BorrarPlaylistButton" @click="deletePlaylist(playlist.id)">Borrar</button>
         </li>
       </ul>
       <div>
@@ -20,7 +21,7 @@
           <br>
           <li>
             <input v-model="newPlaylistName" placeholder="Nombre Playlist Nuevo" style="width: 140px;">
-            <button @click="addPlaylist">Crear</button>
+            <button class="addPlaylist" @click="addPlaylist">Crear</button>
           </li>
           <br>
           <br>
@@ -53,11 +54,11 @@
         <button class="play-button" @click="playSong(song)">
           <i class="fas fa-play"></i>
         </button>
-        <button class="btn-add-playlist" @click="showAddToPlaylistModal(song)">
+        <button class="btn-add-playlist" v-if="removeAddButton" @click="showAddToPlaylistModal(song)">
           <i class="fas fa-plus"></i>
         </button>
-        <button class="btn-delete-song" @click="showDeleteSongModal(song)">
-          <i class="fas fa-trash"></i>
+        <button class="btn-delete-song" v-if="removePlaylistButton" @click="showDeleteSongModal(song)">
+          <i class="fas fa-minus"></i>
         </button>
       </div>
       </div>
@@ -91,6 +92,7 @@
 import axios from "axios";
 import AddSong from "./AddSong.vue";
 import VueCookies from 'vue-cookies'
+import { remove } from "@vue/shared";
 
 
 export default {
@@ -103,7 +105,9 @@ export default {
       selectedSong: null,
       selectedPlaylistId: null,
       showDeleteSong: false,
+      removePlaylistButton: false,
       showAddToPlaylist: false,
+      removeAddButton: true,
       showAddSongPopup: false,
       newPlaylistName: '',
       searchTerm: '',
@@ -123,6 +127,8 @@ export default {
         .get("http://127.0.0.1:5000/melomuse/api/v1/songs")
         .then((response) => {
           this.songs = response.data;
+          this.removePlaylistButton = false;
+          this.removeAddButton = true;
           console.log(response.data)
         })
         .catch((error) => {
@@ -211,6 +217,8 @@ export default {
       try {
         const response = await axios.get(`http://127.0.0.1:5000/api/showSongsPlaylist/${playlistId}`);
         this.songs = response.data.songs;
+        this.removePlaylistButton = true;
+        this.removeAddButton = false;
       } catch (error) {
         console.error(error);
         // Manejo de errores
@@ -290,7 +298,7 @@ export default {
   padding: 10px 20px;
   font-size: 16px;
   width: 550px;
-  background-color: #4287f5;
+  background-color: #1db954;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -338,13 +346,14 @@ export default {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background-color: hsl(0,  100%, 50%); ;
+  background-color: hsl(0,  100%, 50%);
   transform: scale(1);
   transition: all 0.3s;
 }
 
 .btn-delete-song:hover{
   transform: scale(1.25);
+  background-color: hsl(0,  100%, 70%); ;
 }
 .playlists ul {
   list-style: none;
@@ -359,12 +368,27 @@ export default {
   margin-bottom: 10px;
 }
 
+.playlists .BorrarPlaylistButton {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  background-color: red;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.playlists .BorrarPlaylistButton:hover {
+  background-color: rgb(255, 61, 94);
+}
 .playlists button {
   position: absolute;
   top: 50%;
   right: 10px;
   transform: translateY(-50%);
-  background-color: #f44336;
+  background-color: #1db954;
   color: #fff;
   border: none;
   padding: 5px 10px;
@@ -372,8 +396,9 @@ export default {
   cursor: pointer;
 }
 .playlists button:hover {
-  background-color: #d32f2f;
+  background-color: #1ed760;
 }
+
 
 
 .buscador {

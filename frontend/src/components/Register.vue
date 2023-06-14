@@ -2,24 +2,24 @@
     <div class="container">
       <form class="form" @submit.prevent="register">
         <img class="logo-img" src="../assets/LogoMeloMuse.png"/>
-        <h1 >Register</h1>
+        <h1 >Registrarse</h1>
         <div class="form-control">
-          <label for="username">Username:</label>
+          <label for="username">Usuario:</label>
           <input type="text" id="username" v-model="username" required>
         </div>
         <div class="form-control">
-          <label for="name">Name:</label>
+          <label for="name">Nombre:</label>
           <input type="text" id="name" v-model="name" required>
         </div>
         <div class="form-control">
-          <label for="password">Password:</label>
+          <label for="password">Contraseña:</label>
           <input type="password" id="password" v-model="password" required>
         </div>
         <div class="form-control">
-          <button type="submit" class="btn-submit">Register</button>
+          <button type="submit" class="btn-submit">Registrarse</button>
         </div>
       </form>
-      <p>¿Ya tienes cuenta? <router-link to="/login">Login</router-link></p>
+      <p>¿Ya tienes cuenta? <router-link to="/login">Iniciar Sesión</router-link></p>
     </div>
 </template>
   

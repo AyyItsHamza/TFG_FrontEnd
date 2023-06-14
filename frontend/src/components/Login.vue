@@ -2,11 +2,11 @@
     <div class="login-container">
       <form @submit.prevent="login" class="login-form">
         <img class="logo-img" src="../assets/LogoMeloMuse.png"/>
-        <h1 class="login-header">Login</h1>
+        <h1 class="login-header">Iniciar Sesión</h1>
         <div class="form-group">
-          <label for="username" class="form-label"><b>Username:</b></label>
+          <label for="username" class="form-label"><b>Usuario:</b></label>
           <input type="text" id="username" v-model="username" class="form-input">        
-          <label for="password" class="form-label"><b>Password:</b></label>
+          <label for="password" class="form-label"><b>Contraseña:</b></label>
           <input type="password" id="password" v-model="password" class="form-input">
         </div>
         <button type="submit" class="btn-submit">Login</button>
